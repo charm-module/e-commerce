@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<br><br><br><br><br>
+
+<div class="container">
+    <div class="row">
+        <div class="col-xl-3 col-lg-4 col-md-5">
+            <div class="sidebar-categories">
+
+                <div class="head">Browse Categories</div>
+
+                <ul class="main-categories">
+                    
+                    <li class="main-nav-list"><a href="{% url 'product_management:productlist' 0 %}"> All Categories</a>
+                    </li>
+                    {% for c in categories %}
+                    <li class="main-nav-list"><a href="{% url 'product_management:productlist' c.id %}">{{ c.category_name }}</a>
+                   </li>
+                 {% endfor %}
+                </ul>
+</div>
+        </div>
+        <div class="col-xl-9 col-lg-8 col-md-7">
+            <!-- Start Filter Bar -->
+            <div class="filter-bar d-flex flex-wrap align-items-center">
+                            <div>
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination justify-content-center">
+                                        {% if page_obj.has_previous %}
+                                            <li>
+                                                <a class="page-link" href="?page=1{% if keyword %}&keyword={{ keyword }}{% endif %}" aria-label="First">
+                                                    <i class="ti-angle-double-left"></i>
+                                                </a>
+                                            </li>
+                                            <li class="page-item">
+                                                <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if keyword %}&keyword={{ keyword }}{% endif %}" aria-label="Previous">
+                                                    <i class="ti-angle-left"></i>
+                                                </a>
+                                            </li>
+                                        {% endif %}
+                                        {% for page in page_obj.paginator.page_range %}
+                                            {% if page_obj.number == page %}
+                                                <li class="page-item active"><a class="page-link" href="#">{{ page }}</a></li>
+                                            {% elif page > page_obj.number|add:'-3' and page < page_obj.number|add:'3' %}
+                                                <li class="page-item"><a class="page-link" href="?page={{ page }}{% if keyword %}&keyword={{ keyword }}{% endif %}">{{ page }}</a></li>
+                                            {% endif %}
+                                        {% endfor %}
+                                        {% if page_obj.has_next %}
+                                            <li class="page-item">
+                                                <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if keyword %}&keyword={{ keyword }}{% endif %}" aria-label="Next">
+                                                    <i class="ti-angle-right"></i>
+                                                </a>
+                                            </li>
+                                            <li class="page-item">
+                                                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{% if keyword %}&keyword={{ keyword }}{% endif %}" aria-label="Last">
+                                                    <i class="ti-angle-double-right"></i>
+                                                </a>
+                                            </li>
+                                        {% endif %}
+                                    </ul>
+                                </nav>
+                            </div>
+
+                <div style="margin-left: 165px; margin-top: 10px;" class="single_product_menu d-flex ">
+                    <form method="GET" action="{% url 'product_management:search' %}" class="d-flex">
+                        <input type="text" class="form-control me-2" name="keyword" placeholder="Search" aria-label="Search">
+                       &nbsp;&nbsp;&nbsp;
+                        <button class=" btn btn-info success " style="border-radius: 10px ;"type="submit">Search</button>
+                    </form>
+                </div>
+
+            </div>
+            
+            <!-- End Filter Bar -->
+            <!-- Start Best Seller -->
+            <section class="lattest-product-area pb-40 category-list">
+                <div class="row">
+                    {% for p in page_obj  %}
+
+                    <!-- single product -->
+                    <div class="col-lg-4 col-md-6">
+                        <div class="single-product">
+                            <a href="{% url 'product_management:singleproductview' p.id %}">
+                                <img class="img-fluid" src="{{p.images.url}}" alt="">
+                            </a>
+                            <div class="product-details">
+                                <h6>{{ p.product_name }}</h6>
+                                <div class="price">
+                                    <h6>₹ {{ p.price }}</h6>
+                                    <h6 class="l-through">₹ 2100.00</h6>
+                                </div>
+
+                                <div class="prd-bottom">
+
+                                    <a href="{% url 'order_management:add_to_cart' p.id %}" class="social-info">
+                                        <span class="ti-bag"></span>
+                                        <p class="hover-text">add to cart</p>
+                                    </a>
+                                    <a href="{% url 'order_management:add_to_wishlist' p.id %}" class="social-info">
+                                        <span class="lnr lnr-heart"></span>
+                                        <p class="hover-text">Wishlist</p>
+                                    </a>
+                                    <a href=" {% url 'product_management:singleproductview' p.id %}" class="social-info">
+                                        <span class="lnr lnr-move"></span>
+                                        <p class="hover-text">view more</p>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                </div>
+            </section>
+            <!-- End Best Seller -->
+
+        </div>
+    </div>
+</div>
+<br><br><br><br><br><br>
+
+{% endblock %}

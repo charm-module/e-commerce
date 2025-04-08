@@ -1,0 +1,108 @@
+{% extends 'admin/admin_base.html' %}
+{% block main %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<div class="card shadow">
+    <div class="card-body">
+        
+        <h5 class="p-2" style="border-bottom: 2px solid orange;">All Registered User </h5>
+        
+        <div class="container-fluid">
+            <table class="table table-bordered table-sm" id="mydatatable">
+                <thead>
+                <tr>
+                    <th>S.No.</th>
+                    {% comment %} <th>Image</th> {% endcomment %}
+                    {% comment %} <th>Name</th> {% endcomment %}
+                    <th>User name</th>
+                    <th>Email</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+
+
+                </tr>
+                </thead>
+                <tbody>
+                     {% for i in user %}
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{i.username}}</td>
+                        <td>{{i.email}}</td>
+                        {% if i.is_active %}
+                        <td>Unblocked</td>
+                        {% else %}
+                        <td>Blocked</td>
+                        {% endif %}
+                        {% if i.is_active %}
+                        <td><button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#a{{i.id}}">block</button></td>
+
+                            <!-- Modal For Deleting User -->
+                            <div class="modal fade" id="b{{i.id}}" tabindex="-1" role="dialog"aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" id="exampleModalLabel">Alert</h4>
+                                            <button type="button" class="close" data-dismiss="modal"aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <h5 class="modal-title" id="exampleModalLabel">You are Deleting {{i.username}}</h5>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <a href="{% url 'delete_user' i.id %}" class="btn btn-danger btn-sm">Delete</a>
+                                            <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div> 
+                            </div>
+                          
+                            <!-- Modal For Blocking User -->
+                            <div class="modal fade" id="a{{i.id}}" tabindex="-1" role="dialog"aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" id="exampleModalLabel">Alert</h4>
+                                            <button type="button" class="close" data-dismiss="modal"aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <h5 class="modal-title" id="exampleModalLabel">You are blocking {{i.username}}</h5>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <a href="{% url 'blockuser' i.id %}" class="btn btn-danger btn-sm">Block</a>
+                                            <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div> 
+                            </div>
+
+                        {% else %}
+                        <td><button type="button" class="btn btn-success btn-sm" data-toggle="modal"data-target="#a{{i.id}}">unblock</button>
+
+                            <!-- Modal For Unblocking User-->
+                            <div class="modal fade" id="a{{i.id}}" tabindex="-1" role="dialog"aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Alert</h5>
+                                                <button type="button" class="close" data-dismiss="modal"aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <h5 class="modal-title" id="exampleModalLabel">You are unblocking {{i.username}}</h5>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <a href="{% url 'blockuser' i.id %}" class="btn btn-success btn-sm">Unblock</a><button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+ 

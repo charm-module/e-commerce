@@ -1,0 +1,167 @@
+{% extends 'admin/admin_base.html' %}
+{% block main %}
+
+
+
+<br/>
+<br/>
+
+    </ul>
+</nav> 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<h2 class="text-center text-white">Manage Orders</h2>
+{% if orders %}
+         <table class="table table table-responsive" id="mydatatable">
+            <thead>
+              <tr>
+                <th scope="col">id</th>
+                <th scope="col">name</th>
+                <th scope="col">email</th>
+                <th scope="col">phone</th>
+                <th scope="col">amount</th>
+                <th scope="col">payment mode</th>
+                <th scope="col">tracking id</th>
+                <th scope="col">status</th>
+                <th scope="col">action</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="myTable" >
+
+                {% for i in orders %}
+
+              <tr>
+                <th scope="row">{{i.id}}</th>
+                <td>{{i.address.full_name}}</td>
+                <td>{{i.address.email}}</td>
+                <td>{{i.address.phone}}</td>
+                <td>₹{{i.order_total}}</td>
+                <td>{{i.payment.payment_method}}</td>
+                <td>{{i.order_number}}</td>
+                <td>{{i.status}}</td>
+                <td>
+                    {% if i.status == 'Delivered' %}
+                    <label class="btn btn-success btn-sm">Delivered</label>
+                    {% elif i.status == 'Cancelled' %}
+                    <label class="btn btn-danger btn-sm">Cancelled</label>
+                    {% elif i.status == 'Returned' %}
+                    <label class="btn btn-warning btn-sm">Returned</label>
+                    {%else%}
+                    <label class="btn btn-success btn-sm" type="button"  data-toggle="modal" data-target="#myModal{{i.id}}" id="Modal_button">Change</button>
+                    {%endif%}
+                </td>
+                  <td>
+                  <a href="{% url 'view_order' i.id %}" class="btn btn-primary btn-sm">View </a>
+
+                </td>
+              </tr>
+
+
+
+                {% comment %} <td><a href="" class="btn btn-danger btn-sm">Delete</a> {% endcomment %}
+                <!-- Status Modal -->
+<div class="modal fade" id="myModal{{i.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5>Change Status</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="{% url 'update_order' i.id %}" method="POST">
+          {% csrf_token %}
+
+          {% if i.status == 'Order Confirmed' %}
+
+          <div class="row mb-2">
+            <input class="ml-3" type="radio" name="status" value="Order Confirmed" disabled checked>
+            <label for="dreamweaver" class="ml-2 mt-2">Order Confirmed</label>
+          </div>
+          <div class="row mb-2">
+            <input class="ml-3" type="radio" name="status" value="Shipped">
+            <label for="dreamweaver" class="ml-2 mt-2 text-info">Shipped</label>
+          </div>
+          <div class="row mb-2">
+            <input class="ml-3" type="radio" name="status" value="Out for delivery" disabled>
+            <label for="dreamweaver" class="ml-2 mt-2 text-warning">Out for delivery</label>
+          </div>
+          <div class="row mb-2">
+            <input class="ml-3" type="radio" name="status" value="Delivered" disabled>
+            <label for="dreamweaver" class="ml-2 mt-2 text-success">Delivered</label>
+          </div>
+
+          {% elif i.status == 'Shipped' %}
+          <div class="row mb-2">
+            <input class="ml-3" type="radio" name="status" value="Order Confirmed" disabled>
+            <label for="dreamweaver" class="ml-2 mt-2">Order Confirmed</label>
+          </div>
+          <div class="row mb-2">
+            <input class="ml-3" type="radio" name="status" value="Shipped" disabled checked>
+            <label for="dreamweaver" class="ml-2 mt-2 text-info">Shipped</label>
+          </div>
+          <div class="row mb-2">
+            <input class="ml-3" type="radio" name="status" value="Out for delivery">
+            <label for="dreamweaver" class="ml-2 mt-2 text-warning">Out for delivery</label>
+          </div>
+          <div class="row mb-2">
+            <input class="ml-3" type="radio" name="status" value="Delivered" disabled>
+            <label for="dreamweaver" class="ml-2 mt-2 text-success">Delivered</label>
+          </div>
+
+          {% else %}
+
+          <div class="row mb-2">
+            <input class="ml-3" type="radio" name="status" value="Order Confirmed" disabled>
+            <label for="dreamweaver" class="ml-2 mt-2">Order Confirmed</label>
+          </div>
+          <div class="row mb-2">
+            <input class="ml-3" type="radio" name="status" value="Shipped" disabled>
+            <label for="dreamweaver" class="ml-2 mt-2 text-info">Shipped</label>
+          </div>
+          <div class="row mb-2">
+            <input class="ml-3" type="radio" name="status" value="Out for delivery"  disabled checked>
+            <label for="dreamweaver" class="ml-2 mt-2 text-warning">Out for delivery</label>
+          </div>
+          <div class="row mb-2">
+            <input class="ml-3" type="radio" name="status" value="Delivered">
+            <label for="dreamweaver" class="ml-2 mt-2 text-success">Delivered</label>
+          </div>
+
+          {% endif %}
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Save changes</button>
+          </div>
+        </form>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+      {% endfor %}
+
+    </tbody>
+  </table>
+</div>
+
+
+
+          {% else %}
+          <h4 class= "text-center">No records</h4>
+          {% endif %}
+                <!-- Start pagination -->
+
+          <!-- End pagination -->
+          </div>
+
+
+{% endblock %}

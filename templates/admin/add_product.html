@@ -1,0 +1,65 @@
+{% extends 'admin/admin_base.html' %}
+{% block main %}
+
+<div class="card shadow">
+    <div class="card-body">
+        <h5 class="p-2" style="border-bottom: 2px solid orange;">Add Product</h5>
+        <div class="container-fluid">
+            <form action="" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Product Category</label>
+                            <select name="category" class="form-control" required>
+                                <option disabled selected>Choose Category</option>
+                                {% for i in category %}
+                                <option value="{{i.id}}">{{i.category_name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Product Name</label>
+                            <input type="text" name="name" class="form-control" placeholder="Product Name" required>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Product Price</label>
+                            <input type="text" name="price" class="form-control" placeholder="Product Price" required>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Stock</label>
+                            <input type="text" name="stock" class="form-control" placeholder="Stock available" required>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Product Image</label>
+                            <input type="file" name="image" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea name="desc" class="form-control" placeholder="write description here"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <input type="submit" value="Submit" class="m-2 px-3 btn btn-primary">
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+ 

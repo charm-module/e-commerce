@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content  %}
+
+
+
+
+    <!--================Cart Area =================-->
+    <section class="cart_area">
+        <div class="container">
+            <div class="cart_inner">
+                <div class="table-responsive">
+                    <br>
+                    {% include 'include/messagealert.html' %}
+                    <br> 
+                    <table class="table">
+
+                        <thead>
+                            <tr >
+                                <th scope="col"><h5>Image</h5></th>
+                                <th scope="col"><h5>Product_name</h5></th>
+                                <th scope="col"><h5>Price</h5></th>
+                                <th scope="col "><h5> Quantity</h5></th>
+                                <th scope="col "><h5> Total</h5></th>
+                                <th scope="col"><h5>Remove</h5></th>
+
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {% if cart_items %} 
+                            {% for c in cart_items %}
+    
+                            <tr >
+                                <td>
+                                        <div class="d-flex" >
+                                            <img style="width: 80px;" src="{{c.product.images.url}}" alt="">
+                                        </div>
+                                </td>
+                                <td>
+                                    <h5><p>{{c.product.product_name}}</p></h5>
+                                </td>
+                                <td>
+                                    <h5>₹{{c.product.price}}</h5>
+                                </td>
+                                
+                                <td>
+                                    <div class="product_count">
+
+                                        <a href="{% url 'order_management:remove_cart_quantity' c.product.id %}" > <i class="fa fa-minus text-warning"></i></a>
+                                        <input class="form-contrl col-md input-number" name="quantity" type="text" value="{{c.quantity}}" min="0" max="100">
+                                        <a href="{% url 'order_management:add_cart_quantity' c.product.id %}" > <i class="fa fa-plus text-warning"></i></a>
+                                      </div>
+                                                      </td>
+                                <td> <h5>₹ {% widthratio c.product.price 1 c.quantity%}</h5></td>
+
+                                <td>                               
+                                    <button type="button" class="btn btn-link text-danger" data-toggle="modal"data-target="#c{{w.product.id}}"><i class="bi bi-trash" style="font-size: 24px;"></i></button>
+
+
+                                    <div class="modal fade" id="c{{w.product.id}}" tabindex="-1" role="dialog"aria-labelledby="exampleModal" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title" id="exampleModal">Alert</h4>
+                                                    <button type="button" class="close" data-dismiss="modal"aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <h5 class="modal-title" id="exampleModalLabel">You are Deleting {{c.product.product_name}}</h5>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <a href="{% url 'order_management:remove_from_cart' c.product.id %}" class="btn btn-danger btn-sm">Delete</a>
+                                                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div> 
+                                    </div>                           
+        
+                                </td>
+
+                            </tr>
+                            {% endfor %}
+
+                        
+
+
+                            <tr>
+                                <td></td><td></td><td></td><td>
+                                    <h5>Subtotal</h5>
+                                </td>
+                                <td>
+                                    <h5>₹ {{total}}</h5>
+                                </td><td></td>
+                            </tr>
+                            <tr class="out_button_area">
+                                <td></td><td></td><td></td><td></td><td></td>
+                                <td>
+                                    <div class="checkout_btn_inner d-flex align-items-space-between">
+                                        
+                                        <a class="gray_btn" href="{% url 'product_management:productlist' 0 %}">Continue Shopping</a>
+                                        
+                                        <a class="primary-btn" href="{% url 'order_management:checkout' %}">Proceed to checkout</a>
+                                    </div>
+                                </td>
+                            </tr> 
+
+                        </tbody>
+                        {% else %}
+
+                        <tr>
+                            <hr>
+                            <div style="text-align: center; ">
+                                <h4 class=" text-danger">Cart is Empty</h4>
+                              </div>
+                             {% endif %}
+                        </tr>
+    
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--================End Cart Area =================-->
+
+
+
+
+
+
+{% endblock  %}

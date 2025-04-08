@@ -1,0 +1,126 @@
+{% extends 'admin/admin_base.html' %}
+{% block main  %}
+<style>
+.glow {
+  font-size: 80px;
+  color: #fff;
+  text-align: center;
+  -webkit-animation: glow 1s ease-in-out infinite alternate;
+  -moz-animation: glow 1s ease-in-out infinite alternate;
+  animation: glow 1s ease-in-out infinite alternate;
+}
+z/* Rounded border */
+hr.rounded {
+  border-top: 8px solid lightblue;
+  border-radius: 5px;
+}
+</style>
+<div class="row">
+
+
+    <div class="col-sm-3 p-2">
+        <div class="card shadow bg-dark">
+            <div class="card-body">
+                <h4 class="text-light">Total Users</h4>
+                <h5 style="color : #F1948A">{{user}}</h5>
+            </div>
+            <div class="card-footer">
+                <a href="{% url 'manage_user' %}" class="text-warning">View Details >></a>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3 p-2">
+        <div class="card shadow bg-dark">
+            <div class="card-body">
+                <h4 class="text-light">Total Categories</h4>
+                <h5 style="color : #F1948A">{{category}}</h5>
+            </div>
+            <div class="card-footer">
+                <a href="{% url 'view_category' %}" class="text-warning">View Details >></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-3 p-2">
+        <div class="card shadow bg-dark">
+            <div class="card-body">
+                <h4 class="text-light">Total Products</h4>
+                <h5 style="color : #F1948A">{{product}}</h5>
+            </div>
+            <div class="card-footer">
+                <a href="{% url 'view_product' %}" class="text-warning">View Details >></a>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3 p-2">
+        <div class="card shadow bg-dark">
+            <div class="card-body">
+                <h4 class="text-light">Total Coupons</h4>
+                <h5 style="color : #F1948A"> {{coupons}}</h5>
+            </div>
+            <div class="card-footer">
+                <a href="{% url 'view_coupons' %}" class="text-warning">View Details >></a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 grid-margin stretch-card bg-dark m-2 ">
+      <div class="card-body">
+        <h4 class="card-title text-light" >Transaction History</h4>
+        <canvas id="transaction-history" class="transaction-chart"></canvas>
+        <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
+          <div class="text-md-center text-xl-left">
+            <h6 class="mb-1 text-light">Paid By Razorpay</h6>
+            <p class="text-muted mb-0 text-light">07 Jan 2019, 09:12AM</p>
+          </div>
+          <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
+            <h6 class="font-weight-bold mb-0" style="color : #F1948A">{{razorpay_sum}}</h6>
+          </div>
+        </div>
+        <div class="bg-gray-dark d-flex d-md-block d-xl-flex flex-row py-3 px-4 px-md-3 px-xl-4 rounded mt-3">
+          <div class="text-md-center text-xl-left">
+            <h6 class="mb-1 text-light">Cash On Delivery</h6>
+            <p class="text-muted mb-0 text-light">07 Jan 2019, 09:12AM</p>
+          </div>
+          <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
+            <h6 class="font-weight-bold mb-0" style="color : #F1948A" >{{cod_sum}}</h6>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="col-sm-3 p-2">
+        <div class="card shadow bg-dark">
+            <div class="card-body">
+                <h4 class="text-light">Total orders</h4>
+                <h5 style="color : #F1948A"> {{order}}</h5>
+            </div>
+            <div class="card-footer">
+                <a href="{% url 'manage_order' %}" class="text-warning">View Details >></a>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3 p-2">
+        <div class="card shadow bg-dark">
+            <div class="card-body">
+                <h4 class="text-light">Total Revenue</h4>
+                <h5 style="color : #F1948A">₹ {{total_income}}</h5>
+            </div>
+            <div class="card-footer">
+                <h5 class="text-warning font-weight-normal" >The rvenue from {{order}} orders</h5>
+            </div>
+        </div>
+    </div>
+
+
+
+<script>
+        var paymentPercentages = {
+          {% for payment_method, percentage in payment_percentages.items %}
+            "{{ payment_method }}": {{ percentage }},
+          {% endfor %}
+         };
+        total_income ={{total_income}}
+      </script>
+
+
+{% endblock  %}

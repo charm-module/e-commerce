@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block content %}
+<br><br><br>
+<section class="section-conten padding_top">
+
+
+            <div class="container">
+            <div class="row">
+
+            </div>
+
+            </aside>
+            <main class="col-md-12">
+
+<article class="card">
+                    <br/>
+    <h2>&nbsp;&nbsp;Add New Address</h2>
+                    <div class="card-body">
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form
+                                    class="row contact_form"
+                                    action="{% url 'addNewAddress' 0 %}"
+                                    method="POST">
+                                    {%csrf_token%}
+                                    <div class="col-md-6 form-group p_star">
+                                        <label>First Name</label>
+                                        <input type="text" class="form-control" id="first"  name="first_name"placeholder="First Name"required />
+                                    </div>
+                                    <div class="col-md-6 form-group p_star">
+                                        <label>Last Name</label>
+                                        <input type="text" class="form-control" id="last"  name="last_name"placeholder="Last Name" required/>
+                                    </div>
+                                    <div class="col-md-6 form-group p_star">
+                                        <label>Phone Number</label>
+                                        <input type="text" class="form-control" id="phone"  name="phone"placeholder="Phone Number"required/>
+                                    </div>
+                                    <div class="col-md-6 form-group p_star">
+                                        <label>Email</label>
+                                        <input type="email" class="form-control" id="email"  name="email"placeholder="Email" required/>
+                                    </div>
+                                    <div class="col-md-12 form-group p_star">
+                                        <label>Address</label>
+                                        <input type="text" class="form-control" id="add1"  name="address" placeholder="Address"required/>
+                                    </div>
+                                    <div class="col-md-6 form-group p_star">
+                                        <label>City</label>
+                                        <input type="text" class="form-control" id="city"  name="city"placeholder="City" required/>
+                                    </div>
+                                    <div class="col-md-6 form-group p_star">
+                                        <label>Country</label>
+                                        <input type="text" class="form-control" id="country"  name="country"placeholder="Country" required/>
+                                    </div>
+                                    <div class="col-md-6 form-group p_star">
+                                        <label>State</label>
+                                        <input type="text" class="form-control" id="state"  name="state"placeholder="State" required/>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label>Zip Code</label>
+                                        <input type="number" class="form-control" id="zip_code" name="zip_code"  placeholder="Postcode/ZIP" required/>
+                                    </div>
+                                    <input type="hidden" class="form-control" name="form_from" value="{{form_from}}" required/>
+
+
+                                    
+                                    <div class="col-sm-12 form-group p_star">
+                                        <br>
+                                        <center>
+                                            <button type="submit" name="submit" class=" btn btn-warning " style="background: linear-gradient(90deg, #ffba00 0%, #ff6c00 100%);  color: #f2f2f2;">Add Address</button>
+                                        </center>
+                                    </div>
+                                </form>
+                            </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </article>
+
+            </main>
+            </div>
+            </div>
+        </section>
+        <br><br><br>
+{% endblock %}

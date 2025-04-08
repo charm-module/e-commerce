@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<section class="section-conten padding-y bg" style="margin-top: 100px">
+  <div class="container card mb-5" style="background-color: white">
+    <div class="row">
+
+      <main class="col-md-12">
+        {% include 'include/messagealert.html' %}
+
+        <article class="card my-4">
+
+          {%if orders%}
+          <header class="card-header" style="background-color: #ffffff">
+            <h3><strong class="d-inline-block mr-3">My orders</strong></h3>
+          </header>
+          <div class="card">
+            <div class="card-body">
+              <table class="table table-borderless">
+                <thead class="text-muted">
+                  <tr class="small text-uppercase">
+                    <th scope="col">order date</th>
+                    <th scope="col">Tracking Number</th>
+                    <th scope="col">Total Price</th>
+                    <th scope="col">Payment ID</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {% for item in orders %}
+                  <tr>
+                    <td>{{ item.created_at }}</td>
+                    <td>{{ item.order_number }}</td>
+                    <td>₹ {{ item.order_total }}</td>
+                    <td>
+                    {{ item.payment.payment_id }}
+                    </td>
+                    {% if item.status == 'Cancelled' %}
+                    <td ><b class="text-danger">{{ item.status }}</b></td>
+                    {% else %}
+                    <td >
+                      <b class="text-success">{{ item.status }}</b>
+                    </td>
+                    {% endif %}
+
+                    <td>
+                      <a href="{% url 'further_management:vieworder' item.id %}"class="btn btn-dark">View</a >
+                    </td>
+                  </tr>
+
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          {%else%}
+          <div>
+            <h2 class="text-center">Your order history is empty</h2>
+            <div class="text-center">
+              <a class="btn_1" href="{% url 'product_management:productlist' 0 %}">Continue shopping..</a>
+            </div>
+          </div>
+          {%endif%}
+        </article>
+        <!-- order-group.// -->
+      </main>
+    </div>
+    <!-- row.// -->
+  </div>
+</section>
+
+{% endblock %}

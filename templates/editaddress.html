@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block content %}
+<br><br><br>
+<section class="section-conten padding_top">
+
+
+            <div class="container">
+            <div class="row">
+
+
+
+            </div>
+
+            </aside>
+            <main class="col-md-12">
+
+<article class="card">
+                    <br/>
+    <h2>&nbsp;&nbsp;Edit Address</h2>
+                    <div class="card-body">
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form
+                                    class="row contact_form"
+                                    action="{% url 'editAddress' address.id %}"
+                                    method="POST">
+                                    {%csrf_token%}
+                                    <div class="col-md-6 form-group p_star">
+                                        <label>First Name</label>
+                                        <input type="text" class="form-control" id="first" value="{{address.first_name}}" name="first_name"placeholder="First Name"required />
+                                    </div>
+                                    <div class="col-md-6 form-group p_star">
+                                        <label>Last Name</label>
+                                        <input type="text" class="form-control" id="last" value="{{address.last_name}}" name="last_name"placeholder="Last Name" required/>
+                                    </div>
+                                    <div class="col-md-6 form-group p_star">
+                                        <label>Phone Number</label>
+                                        <input type="text" class="form-control" id="phone" value="{{address.phone}}" name="phone"placeholder="Phone Number"required/>
+                                    </div>
+                                    <div class="col-md-6 form-group p_star">
+                                        <label>Email</label>
+                                        <input type="email" class="form-control" id="email" value="{{address.email}}" name="email"placeholder="Email" required/>
+                                    </div>
+                                    <div class="col-md-12 form-group p_star">
+                                        <label>Address</label>
+                                        <input type="text" class="form-control" id="add1" value="{{address.order_address}}" name="address" placeholder="Address"required/>
+                                    </div>
+                                    <div class="col-md-6 form-group p_star">
+                                        <label>City</label>
+                                        <input type="text" class="form-control" id="city" value="{{address.city}}" name="city"placeholder="City" required/>
+                                    </div>
+                                    <div class="col-md-6 form-group p_star">
+                                        <label>Country</label>
+                                        <input type="text" class="form-control" id="country" value="{{address.country}}" name="country"placeholder="Country" required/>
+                                    </div>
+                                    <div class="col-md-6 form-group p_star">
+                                        <label>State</label>
+                                        <input type="text" class="form-control" id="state" value="{{address.state}}" name="state"placeholder="State" required/>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label>Zip Code</label>
+                                        <input type="number" class="form-control" id="zip_code" name="zip_code" value="{{address.zip_code}}" placeholder="Postcode/ZIP" required/>
+                                    </div>
+
+                                    <br/><br/>
+                                    <div class="col-sm-12 form-group p_star">
+                                        <center>
+                                            <button type="submit" name="submit" class=" btn btn-warning success " style="height:50px">Edit Address</button>
+                                        </center>
+                                    </div>
+                                </form>
+                            </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </article>
+
+            </main>
+            </div>
+            </div>
+        </section>
+        <br><br><br>
+{% endblock %}

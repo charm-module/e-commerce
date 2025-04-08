@@ -1,0 +1,157 @@
+
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container">
+    <div class="main-body">
+
+        <br>
+        {% include 'include/messagealert.html' %}
+
+        <h4 >My Addresses</h4>
+
+         <br>
+        <div class="row gutters-sm">
+            <div class="col-md-4 mb-3">
+              <div class="card">
+                <div class="card-body">
+                  <div class="d-flex flex-column align-items-center text-center">
+                    {% if user.profile_pic %}
+                    <img class="rounded-circle mt-5" width="150px" src="{{ request.user.profile_pic.url }}" alt="{{ request.user.username }} profile picture">
+                {% else %}
+                    <img class="rounded-circle mt-5" width="150px" src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="{{ user.username }} profile picture">
+                {% endif %}
+
+                    <div class="mt-3">
+                      <h4>{{request.user.username}}</h4>
+                      <p class="text-secondary mb-1">{{request.user.email}}</p>
+                      <p class="text-muted font-size-sm"></p>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <div class="card mt-3">
+                <ul class="list-group list-group-flush ">
+                    <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                      <div class="row">
+                        <div class="col-sm-12 " >
+                          <a   class=" text-warning" href="{% url 'further_management:myorders' %}">My Orders</a>
+                        </div>
+                      </div>
+    
+                    </li>
+
+                    <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                        <div class="row">
+                            <div class="col-sm-12">
+                              <a  class=" text-warning"  href="{% url 'changepassword' %}">Change Password</a>
+                            </div>
+                          </div>
+        
+                    </li>
+
+                    <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                        <div class="row">
+                            <div class="col-sm-12">
+                              <a  class=" text-warning"  href="{% url 'viewAddresses' %}">View Addresses</a>
+                            </div>
+                          </div>
+        
+                    </li>
+                </ul>
+            </div>
+        </div>   
+
+        <section class="section-conten padding_top">
+
+            <div class="container">
+                <div class="row">
+            
+                    <main class="col-md-12">
+            
+                        <article class="card-md-12">
+            
+                            <header class="card-header ml-auto" style="background-color:#e8f0f2;">
+                                <a href="{% url 'addNewAddress' 0 %}" class="btn btn-warning"  style="background: linear-gradient(90deg, #ffba00 0%, #ff6c00 100%); color: #f2f2f2;"role="button">+ Add New Address</a>
+                            </header>
+                         <div class="card-body">
+                            <div class="row">
+                                <div class="container">
+                                    <h4 class="font-weight-bold mt-0 mb-4">Manage Addresses</h4>
+                                    {% for address in AllAddress%}
+                                    <div class="col-md-9 mt-4">
+                                        <div class="row bg-white card addresses-item mb-4 border border-warning shadow">
+                                            <div class="osahan-account-page-right shadow-sm bg-white p-4 h-100">
+                                                <div class="tab-content" id="myTabContent">
+                                                    <div class="tab-pane fade  active show" id="addresses" role="tabpanel" aria-labelledby="addresses-tab">
+                                                        <h3 class="mb-1 text-secondary">{{address.first_name}} {{address.last_name}} {{address.str}}</h3>
+                                                        <h5 class="mb-1 text-secondary">{{address.phone}}</h5>
+                                                        <h5 class="mb-1 text-secondary">{{address.email}}</h5>
+                                                        <p class="text-black">{{address.order_address}}<br/> {{address.city}}, {{address.state}}, {{address.country}}, <br/> Pin: {{address.zip_code}}</p>
+                                                        <p class="mb-0 text-black font-weight-bold">
+                                                            <a class="text-warning mr-3" href="{%url 'editAddress' address.id  %}">
+                                                                EDIT
+                                                            </a>
+                                                          
+                                                            <button type="button" data-toggle="modal" data-target="#a{{w.product.id}}" style="border:none; background-color:white; font-weight:bold; color:red;">DELETE</button>
+
+
+                                                            <div class="modal fade" id="a{{w.product.id}}" tabindex="-1" role="dialog"aria-labelledby="exampleModal" aria-hidden="true">
+                                                                <div class="modal-dialog" role="document">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h4 class="modal-title" id="exampleModal">Alert</h4>
+                                                                            <button type="button" class="close" data-dismiss="modal"aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            <h5 class="modal-title" id="exampleModalLabel">You are Deleting {{address.first_name}} {{address.last_name}}'s address</h5>
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <a href="{%url 'deleteAddress' address.id  %}" class="btn btn-danger btn-sm">Delete</a>
+                                                                            <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div> 
+                                                            </div>                           
+                        
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor%}
+                                </div>
+            
+                            </div>
+                          </div> 
+                        </article>
+            
+                    </main>
+                </div>
+            </div>
+        </section> 
+    </div>
+</div>
+</div>
+<br><br><br>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

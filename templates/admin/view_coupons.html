@@ -1,0 +1,52 @@
+{% extends 'admin/admin_base.html' %}
+{% block main  %}
+
+
+    <h1>Coupons</h1>
+    <table class="table" id="mydatatable">
+        <thead>
+            <tr>
+                <th>Code</th>
+                <th>Discount</th>
+                <th>Min Value</th>
+                <th>Valid From</th>
+                <th>Valid At</th>
+                <th>Actions</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for coupon in coupons %}
+                <tr>
+                    <td>{{ coupon.code }}</td>
+                    <td>{{ coupon.discount }}</td>
+                    <td>{{ coupon.min_value }}</td>
+                    <td>{{ coupon.valid_from }}</td>
+                    <td>{{ coupon.valid_at }}</td>
+                    <td><a href="{% url 'edit_coupon' coupon.id %}" class="btn btn-primary">Edit</a></td>
+                    <td><button type="button" class="btn btn-danger btn-sm" data-toggle="modal"data-target="#e{{coupon.id}}">Delete</button></td>
+                </tr>
+
+                <!-- Modal For Deleting Product -->
+                <div class="modal fade" id="e{{coupon.id}}" tabindex="-1" role="dialog"aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="exampleModalLabel">Alert</h4>
+                                <button type="button" class="close" data-dismiss="modal"aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            </div>
+                            <div class="modal-body">
+                                <h5 class="modal-title" id="exampleModalLabel">You are Deleting coupon {{coupon.code}}</h5>
+                            </div>
+                            <div class="modal-footer">
+                                <a href="{% url 'delete_coupon' coupon.id %}" class="btn btn-danger btn-sm">Delete</a>
+                                <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

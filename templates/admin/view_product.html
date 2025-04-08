@@ -1,0 +1,60 @@
+{% extends 'admin/admin_base.html' %}
+{% block main  %}
+
+<div class="card shadow">
+    <div class="card-body">
+        <h5 class="p-2" style="border-bottom: 2px solid orange;">All Product</h5>
+        <div class="container-fluid">
+            <table class="table table-bordered table-sm" id="mydatatable">
+                <thead>
+                    <tr>
+                        <th>S.No.</th>
+                        <th>Image</th>
+                        <th>Product Name</th>
+                        <th>Category</th>
+                        <th>Price</th>
+                        <th>Stock</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in product %}
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td><img src="{{i.images.url}}" style="width:100px"/></td>
+                        <td>{{i.product_name}}</td>
+                        <td>{{i.category.category_name}}</td>
+                        <td>{{i.price}}</td>
+                        <td>{{i.stock}}</td>
+                        <td><a href="{% url 'edit_product' i.id %}" class="text-success">Edit✏️</a></td>
+                        <td><button type="button" class="btn btn-danger btn-sm" data-toggle="modal"data-target="#a{{i.id}}">Delete</button></td>
+
+                            <!-- Modal For Deleting Product -->
+                            <div class="modal fade" id="a{{i.id}}" tabindex="-1" role="dialog"aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" id="exampleModalLabel">Alert</h4>
+                                            <button type="button" class="close" data-dismiss="modal"aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <h5 class="modal-title" id="exampleModalLabel">You are Deleting {{i.product_name}}</h5>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <a href="{% url 'delete_product' i.id %}" class="btn btn-danger btn-sm">Delete</a>
+                                            <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div> 
+                            </div>
+
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+ 

@@ -1,0 +1,70 @@
+ {% extends 'admin/admin_base.html' %}
+{% block main  %}
+                    
+                    <div class="card shadow">
+                        <div class="card-body">
+                    
+                            <h5 class="p-2" style="border-bottom: 2px solid orange;">All Banners</h5>
+                            <div class="container-fluid">
+                    
+                                <table class="table table-bordered table-sm" id="mydatatable">
+                                    <thead>
+                                    <tr>
+                                        <th>S. No.</th>
+                                        <th>Banner title</th>
+                                        <th>image</th>
+                                        <th>Action</th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for i in banner %}
+                                    <tr>
+                                        <td>{{forloop.counter}}</td>
+                                        <td>{{i.title}}</td>
+                                        <td><img src="{{ i.images.url }}" alt="{{ i.title }}" style="max-width:80%; height:50%;"></td>
+                                        <td><a href="{% url 'edit_banner' i.id %}" class="text-success">Edit</a></td>
+                                        {% comment %} <td><a href="{% url 'delete_category' i.id %}" class="text-danger" onclick="return confirm('Are You Sure?')">Delete</a></td> {% endcomment %}
+                                        <td><button type="button" class="btn btn-danger btn-sm" data-toggle="modal"data-target="#d{{i.id}}">Delete</button></td>
+                    
+                                    </tr>
+                    
+                                    <!-- Modal For Deleting Product -->
+                                    <div class="modal fade" id="d{{i.id}}" tabindex="-1" role="dialog"aria-labelledby="exampleModal" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title" id="exampleModal">Alert</h4>
+                                                    <button type="button" class="close" data-dismiss="modal"aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <h5 class="modal-title" id="exampleModalLabel">You are Deleting banner</h5>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <a href="{% url 'delete_banner' i.id %}" class="btn btn-danger btn-sm">Delete</a>
+                                                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div> 
+                                    </div>                           
+                                          
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+ 

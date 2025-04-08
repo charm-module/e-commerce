@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+
+<body>
+    <!--================Cart Area =================-->
+    <section class="cart_area">
+        <div class="container">
+            <div class="cart_inner">
+                <div class="table-responsive">
+                    <br>
+                    {% include 'include/messagealert.html' %}
+                       <br> 
+                    <table class="table">        
+                        <thead>
+                            <tr >
+                                <th scope="col"><h5>Image</h5></th>
+                                <th scope="col"><h5>Product_name</h5></th>
+                                <th scope="col"><h5>Price</h5></th>
+                                <th scope="col "><h5> Add To Cart</h5></th>
+                                <th scope="col"><h5>Remove</h5></th>
+
+                            </tr>
+                        </thead>
+                        {% if wishlist_items %}
+                        {% for w in wishlist_items %}
+
+                        <tbody>
+                            <tr >
+                                <td>
+                                        <div class="d-flex">
+                                            <img src="{{w.product.images.url}}" alt="" style="width:100px;">
+                                        </div>
+                                </td>
+                                <td>
+                                    <h5>                                       
+                                        <p>{{w.product.product_name}}</p>
+                                    </h5>
+                                </td>
+                            <td>
+                                    <h5>₹{{w.product.price}}</h5>
+                                </td>
+                                <td>
+                                    <div class="details-action-col col-7"> 
+                                        {% if w.product.stock > 0 %} 
+                                        
+                                            
+                                            <div class="product-details-quantity-container">
+                                                {% comment %} <input type="hidden"  name="quantity" value="1" min="1" max="10" step="1"> {% endcomment %}
+                                                
+                                                <a href="{% url 'order_management:add_to_cart' w.product.id %}" style="border:none; background-color:white; font-weight:bold; color:orange;"><i class="bi bi-cart-plus" style="font-size: 24px;"></i> Add to Cart</a>
+                                    
+                                            </div>
+                                        </form>
+                                        {% else %}
+                                        <a href="" class="btn btn-block btn-outline-primary-2 disabled">Out of Stock</a>
+                                        {%endif%}    
+                                    </div>                      
+                                 </td>
+                                <td>                                   
+                                    <button type="button" class="btn btn-link text-danger" data-toggle="modal"data-target="#w{{w.product.id}}"><i class="bi bi-trash" style="font-size: 24px;"></i></button>
+                                 
+
+                                </div>
+                            </td>
+                            <div class="modal fade" id="w{{w.product.id}}" tabindex="-1" role="dialog"aria-labelledby="exampleModal" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" id="exampleModal">Alert</h4>
+                                            <button type="button" class="close" data-dismiss="modal"aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <h5 class="modal-title" id="exampleModalLabel">You are Deleting {{w.product.product_name}}</h5>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <a href="{% url 'order_management:remove_from_wishlist' w.product.id %}" class="btn btn-danger btn-sm">Delete</a>
+                                            <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div> 
+                            </div>                           
+
+                            </tr>
+                            {% endfor %}
+                            
+                        </tbody>
+                        {% else %}
+                        <tr>
+                            <hr>
+                            <div style="text-align: center; ">
+                                <h4 class=" text-danger">Wishlist is Empty</h4>
+                              </div>
+                             {% endif %}
+                        </tr>
+
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--================End Cart Area =================-->
+{% endblock  %}

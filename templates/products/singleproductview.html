@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %} 
+
+	<!--================Single Product Area =================-->
+	<div class="product_image_area">
+
+		<div class="container">
+			<div class="row s_product_inner">
+				<div class="col-lg-6">
+					<div class="s_Product_carousel">
+						<div class="single-prd-item">
+							<img class="img-fluid big_img" src="{{product.images.url}}" alt="">
+						</div>
+						<div class="single-prd-item">
+							<img class="img-fluid big_img" src="{{product.images.url}}" alt="">
+						</div>
+						<div class="single-prd-item">
+							<img class="img-fluid big_img" src="{{product.images.url}}" alt="">
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-5 offset-lg-1">
+					<div class="s_product_text">
+						<h3>{{product.product_name}}</h3>
+						<h2>₹ {{product.price}}</h2>
+						<ul class="list">
+							<li><a class="active" href="#"><span>Category</span> {{product.category}}</a></li>
+							{% if product.stock > 0 %}
+							<li><a href="#"><span>Availibility</span> : In Stock</a></li>
+							{% else %}
+							<li><a href="#"><span>Availibility</span> : Out of Stock</a></li>
+							{% endif %}
+
+						</ul>
+						<p>{{product.description}}</p>
+					    <div class="card_area d-flex align-items-center">
+							<div class="details-action-col col-7"> 
+								{% if product.stock > 0 %} 
+								<form action="{% url 'order_management:add_to_cart' product.id %}" method="POST">
+									{% csrf_token %}
+									<div class="d-flex justify-content-center align-items-space-between">
+								
+										<label class="mt-2 h6">Quantity:</label>
+						
+										<input type="number" class="form-control form-control-md" name="quantity" value="1" min="1" max="10" step="1" required style="width: 100%; max-width: 200px;">
+										
+										<input type="hidden" name="product_id" value="{{ product.id }}">
+										&nbsp&nbsp <button type="submit" class="btn btn-warning " style=" margin-right:-12px; background: linear-gradient(90deg, #ffba00 0%, #ff6c00 100%);  color: #f2f2f2;"><i class="bi bi-cart-plus" ></i> Add to Cart</button>
+	
+									</div>
+
+								</form>
+								{% else %}
+								<a href="" class="btn btn-block btn-outline-primary-2 disabled">Out of Stock</a>
+								{%endif%}    
+							</div>                       
+					       <a class="icon_btn" href="{% url 'order_management:add_to_wishlist' product.id %}"><i class="lnr lnr lnr-heart"></i></a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--================End Single Product Area =================-->
+
+<br><br><br>
+
+{% endblock  %}

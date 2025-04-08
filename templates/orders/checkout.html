@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+{% block content  %}
+{% load static %}
+
+<section class="checkout_area section_gap">
+    <div class="container">
+   
+             {% include 'include/messagealert.html' %}
+      <div class="card " style="background-color: #e8f0f5; width:50vw;">
+        <div class="card-body">
+            <form action="{% url 'order_management:checkout' %}" id="coupon-form" method="POST" required>
+              {%csrf_token%}
+                <div class="form-group"> <label>Have coupon?</label>
+                    <div class="input-group">
+                      <input type="hidden" class="form-control"value="{{grand_total}}" name="grand_total" required/>
+                      <input type="hidden" class="form-control" value="{{addressSelected.id}}" name="addressSelected" required />
+                      <input type="text" class="form-control coupon" name="couponCode" placeholder="Coupon code">
+                      <span class="input-group-append">
+                        <button class="btn btn-warning btn-apply coupon" style="background: linear-gradient(90deg, #ffba00 0%, #ff6c00 100%); color: #f2f2f2;"  {% if discount %}disabled{% endif %} >Apply</button>
+                      </span>
+                    </div>
+                </div>
+            </form>
+        </div>
+      </div>
+    
+      <br><br>
+        <div class="billing_details">
+            <div class="row">
+                <div class="col-lg-8">
+                    <section class="cart_area padding_top">
+                      <form class="row contact_form" action="{% url 'order_management:confirmation' %}" method="POST">
+                        {% csrf_token %}
+                        <div class="container">
+                          <div class="cart_inner">
+                       <h4 class="font-weight-bold mt-0 mb-4">Select your Delivery Address</h4>
+
+                 <!-- Default unchecked -->
+                
+                <header class="card-header mr-auto" style="background-color:#e8f0f2;">
+                
+                  <a class="tp_btn" style="background: linear-gradient(90deg, #ffba00 0%, #ff6c00 100%);  color: #f2f2f2;" href="{% url 'addNewAddress' 1 %}">Add new address</a>
+                </header>
+                
+                    {% for address in addresses%}
+                    <div class="custom-control custom-checkbox" >
+                      <input type="radio" class="custom-control-input " id="{{address}}" name="addressSelected" value="{{address.id}}" checked>
+
+                        <label class="custom-control-label" for="{{address}}" style="width: 100%;">
+                          <div class="col-md-9">
+                            <div class="row bg-white card addresses-item mb-2 mt-3 border border-warning shadow">
+                              <div class="osahan-account-page-right shadow-sm bg-white p-4 h-100" >
+                                <div class="tab-content" id="myTabContent">
+                                  <div class="tab-pane fade  active show" id="addresses" role="tabpanel" aria-labelledby="addresses-tab">
+                                    <h3 class="mb-1 text-secondary"> {{address.first_name}}</h3>
+                                    <h5 class="mb-1 text-secondary">{{address.phone}}</h5>
+                                    <h5 class="mb-1 text-secondary">{{address.email}}</h5>
+                                    <p class="text-black">{{address.full_address}}</p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </label>
+                      </div>
+                    {% endfor%}
+                    
+                      </div>
+                    </div>
+
+                </section>
+                
+                 <!-- Coupon Related Fields -->
+
+                </div>
+                <div class="col-lg-4">
+                    <div class="order_box">
+                        <h2>Your Order</h2>
+                        <ul class="list">
+                            <li><a href="#">Product <span>Total</span></a></li>
+                            {% for cart_item in cart_items%}
+                            <li>
+                                
+                                <a href="#">
+                                  {{cart_item.product.product_name}}
+                                  <span class="price">₹ {{cart_item.product.price}}</span>
+                                </a>
+                                </li>
+                            </li>
+                                                            
+                            {%endfor%}
+                        </ul>
+                        <ul class="list list_2">
+                            <li><a href="#">Subtotal<span>₹ {{total}}</span></a></li>
+                            <li><a href="#">Tax <span>₹ {{tax}}</span></a></li>
+                            <li><a href="#">Grand Total <span>₹ {{grand_total}}</span></a></li>
+                            {% if discount %}
+                            <li><span>Coupon Applied.</span></li>
+                            <li><a href="#">Coupon Code : {{coupon.code}}</a></li>
+                            <li><a href="#">Coupon Discount({{coupon.discount}}%)<span>₹ {{coupon_discount}}</span></a></li>
+                            <li><a href="#">Payable Amount<span>₹ {{amountToBePaid}}</span></a></li>
+                            {%endif%}
+                            
+                        </ul>
+                        <input type="hidden" class="form-control" value="{{total}}" name="total" required/>
+                        <input type="hidden" class="form-control" value="{{grand_total}}" name="grand_total" required/>
+                        <input type="hidden" class="form-control" value="{{amountToBePaid}}" name="amountToBePaid" required/>
+                        <input type="hidden" class="form-control" value="{{coupon_discount}}" name="coupon_discount" required/>
+                        <input type="hidden" class="form-control" value="{{tax}}" name="tax" required/>
+                        <input type="hidden" class="form-control" id="couponCode" value="{{coupon.code}}" name="couponCode" required/>
+ 
+                        <br><br>
+                        <div class="d-flex justify-content-center align-items-center">
+                          <button type="submit" value="submit" class="primary-btn border-0 w-100">Place Order</button>
+                        </div>
+                                                
+                      </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </form>
+</section>
+
+{% endblock  %}

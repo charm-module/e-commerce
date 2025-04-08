@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+
+
+	<!--================Order Details Area =================-->
+	<section class="order_details section_gap">
+		<div class="container">
+			<h3 class="title_confirmation">Confirmation Of Your Purchase.</h3>
+			{% include 'include/messagealert.html' %}
+			<form  action=" {% url 'order_management:place_order' %}" method="POST">
+			{% csrf_token %}
+            <div class="order_details_table">
+				<h4>Shipping Address</h4>
+				<hr>
+
+				<div class="table-responsive">
+					<ul class="list">
+						<h5>  <li> <span>Name</span> : {{addressSelected.first_name}} {{addressSelected.last_name}}</li></h5>
+						<h5><li><span>Address</span> : {{addressSelected.order_address}} ,{{addressSelected.city}} , {{addressSelected.state}}</li></h5>
+						<h5><li><span>Country </span> : {{addressSelected.country}}</li></h5>
+						<h5><li><span>Pin Code </span> : {{addressSelected.zip_code}}</li></h5>
+						<h5><li><span>Phone</span> :{{addressSelected.phone}} </li></h5>
+						<h5><li><span>Email </span> : {{addressSelected.email}}</li></h5>	
+					</ul>
+				</div>
+			</div>
+
+			<!-- Address Related Fields -->
+			 <input type="hidden" class="form-control"  value="{{addressSelected.id}}" name="addressSelected" placeholder="First Name"required />
+			 <input type="hidden" class="form-control" value="{{addressSelected.first_name}}" name="first_name"placeholder="First Name"required />
+			 <input type="hidden" class="form-control" id="last"value="{{addressSelected.last_name}}" name="last_name"placeholder="Last Name" required/>
+			 <input type="hidden" class="form-control" id="phone"value="{{addressSelected.phone}}" name="phone"placeholder="Phone Number"required/>
+			 <input type="hidden" class="form-control" id="email"value="{{addressSelected.email}}" name="email"placeholder="Email" required/>
+			 <input type="hidden" class="form-control" id="add1" value="{{addressSelected.order_address}}" name="address_line_1" placeholder="Address 1"required/>
+			 <input type="hidden" class="form-control" id="city" value="{{addressSelected.city}}" name="city"placeholder="City" required/>
+			 <input type="hidden" class="form-control" id="state" value="{{addressSelected.state}}" name="state"placeholder="State" required/>
+			 <input type="hidden" class="form-control" id="country" value="{{addressSelected.country}}" name="country"placeholder="Country" required/>
+			 <input type="hidden" class="form-control" id="zip_code" name="zip_code"value="{{addressSelected.zip_code}}" placeholder="Postcode/ZIP" required/>
+			 <!-- Coupon Related Fields -->
+			 <input type="hidden" class="form-control" value="{{total}}" name="total" required/>
+			 <input type="hidden" class="form-control" value="{{grand_total}}" name="grand_total" required/>
+			 <input type="hidden" class="form-control" value="{{amountToBePaid}}" name="amountToBePaid" required/>
+			 <input type="hidden" class="form-control" id="couponCode" value="{{couponCode}}" name="couponCode" required/>
+			 <input type="hidden" class="form-control" value="{{coupon_discount}}" name="coupon_discount" required/>
+			<!-- Cod Related Fields -->
+			 <input type="hidden" value="COD"name="payment_method">
+ 
+            <br>
+			<div class="order_box">
+				<h2>Your Order Summary</h2>
+				<ul class="list">
+					<li><a href="#">Product <span>Total</span></a></li>
+					{% for cart_item in cart_items%}
+					<li><a href="#">{{cart_item.product.product_name}}<span class="price">₹ {{cart_item.product.price}}</span></a></li>								
+					{%endfor%}
+				</ul>
+				<ul class="list list_2">
+					<li><a href="#">Subtotal<span>₹ {{total}}</span></a></li>
+					<li><a href="#">Tax <span>₹ {{tax}}</span></a></li>
+					<li><a href="#">Grand Total <span>₹ {{grand_total}}</span></a></li>
+					<li><a href="#">Coupon Discount<span>₹ {{coupon_discount}}</span></a></li>
+					<li><a href="#">Payable Amount<span>₹ {{amountToBePaid}}</span></a></li>
+				</ul>
+				<br><br>
+				<div class="d-flex justify-content-center align-items-center">
+				  <button type="submit" value="submit" class="primary-btn border-0 w-25">Cash on delivery</button>&nbsp&nbsp&nbsp
+		</form>
+		<button type="button" id="payWithRazorpay"  class="primary-btn border-0 w-25">Pay with Razorpay</button>				</div>
+        </div>
+	</div>
+
+</section>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="{% static 'js/checkout.js' %}"></script>
+
+
+
+{% if msg %}
+<script>
+  console.log("here");
+  swal("Error!", "{{msg}}", "info");
+
+</script>
+{% endif %}
+{% endblock  %}
+<!--================End Order Details Area =================-->
